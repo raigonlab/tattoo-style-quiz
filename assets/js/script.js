@@ -25,11 +25,17 @@ fetch("assets/data/questions.json")
       "<p class='error-msg'>Sorry, the quiz could not be loaded. Please try again later.</p>";
   });
 
-// Renders the current question and its answer options
+// Renders the current question, progress bar, and answer options
 function renderQuestion() {
   var currentQuestion = questions[currentQuestionIndex];
+  var progressPercent = Math.round(((currentQuestionIndex + 1) / questions.length) * 100);
 
   quizContainer.innerHTML =
+    "<div class='progress-bar-container' role='progressbar' aria-valuenow='" +
+    progressPercent +
+    "' aria-valuemin='0' aria-valuemax='100' aria-label='Quiz progress'>" +
+    "<div class='progress-bar-fill' style='width: " + progressPercent + "%'></div>" +
+    "</div>" +
     "<p class='question-counter' aria-live='polite'>Question " +
     (currentQuestionIndex + 1) +
     " of " +
