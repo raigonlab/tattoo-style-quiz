@@ -86,3 +86,38 @@ function renderQuestion() {
     <div class="options"></div>
   `;
 }
+
+// Displays the current question, its progress counter, and its answer options
+function renderQuestion() {
+    const currentQuestion = questions[currentQuestionIndex];
+  
+    quizContainer.innerHTML = `
+      <p class="question-counter">Question ${currentQuestionIndex + 1} of ${questions.length}</p>
+      <h2>${currentQuestion.question}</h2>
+      <div class="options"></div>
+    `;
+  
+    const optionsContainer = quizContainer.querySelector(".options");
+  
+    // Creates a button for each answer option and attaches a click handler
+    currentQuestion.options.forEach((option, index) => {
+      const button = document.createElement("button");
+      button.textContent = option.text;
+      button.classList.add("option-btn");
+      button.addEventListener("click", () => handleAnswer(option.style));
+      optionsContainer.appendChild(button);
+    });
+  }
+  
+  // Runs when the user clicks an answer: adds a point to the chosen style,
+  // then either shows the next question or the final result
+  function handleAnswer(style) {
+    scores[style]++;
+    currentQuestionIndex++;
+  
+    if (currentQuestionIndex < questions.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }
