@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — Tattoo Style Quiz</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .error-card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .error-code {
+      font-size: 4rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .error-card h2 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+    }
+
+    .error-card p {
+      color: #666666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .home-link {
+      display: inline-block;
+      background-color: #1a1a1a;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+    }
+
+    .home-link:hover,
+    .home-link:focus {
+      background-color: #333333;
+      outline: 2px solid #1a1a1a;
+      outline-offset: 2px;
+    }
+
+    .countdown {
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      color: #999999;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>What's your tattoo style?</h1>
+    <p>Answer a few questions to find out which tattoo style fits you best.</p>
+  </header>
+
+  <main>
+    <div class="error-card">
+      <p class="error-code">404</p>
+      <h2>Page not found</h2>
+      <p>The page you are looking for does not exist or has been moved.</p>
+      <a href="index.html" class="home-link">Back to the quiz</a>
+      <p class="countdown" id="countdown">Redirecting in <span id="timer">5</span> seconds...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Raigon Lab</p>
+  </footer>
+
+  <script>
+    /* jshint esversion: 6 */
+
+    // Counts down from 5 and redirects to the homepage automatically
+    var seconds = 5;
+    var timerEl = document.getElementById("timer");
+
+    var interval = setInterval(function () {
+      seconds--;
+      timerEl.textContent = seconds;
+
+      if (seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = "index.html";
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
