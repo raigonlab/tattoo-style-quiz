@@ -9,7 +9,7 @@
     .error-card {
       background-color: #ffffff;
       border-radius: 12px;
-      padding: 2rem;
+      padding: 2.5rem 2rem;
       border: 1px solid #e0e0e0;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       text-align: center;
@@ -17,25 +17,28 @@
       width: 100%;
     }
 
-    .error-code {
-      font-size: 4rem;
-      font-weight: 500;
-      color: #1a1a1a;
-      line-height: 1;
-      margin-bottom: 0.5rem;
+    .illustration {
+      display: block;
+      margin: 0 auto 1.5rem;
+      animation: wobble 3s ease-in-out infinite;
     }
 
-    .error-card h2 {
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #1a1a1a;
-      margin-bottom: 1rem;
+    @keyframes wobble {
+      0%, 100% { transform: rotate(-2deg); }
+      50%       { transform: rotate(2deg); }
     }
 
-    .error-card p {
+    .error-heading {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 0.75rem;
+    }
+
+    .error-subtext {
       color: #666666;
-      margin-bottom: 1.5rem;
       line-height: 1.6;
+      margin-bottom: 1.5rem;
     }
 
     .home-link {
@@ -72,16 +75,118 @@
 
   <main>
     <div class="error-card">
-      <p class="error-code">404</p>
-      <h2>Page not found</h2>
-      <p>The page you are looking for does not exist or has been moved.</p>
+
+      <!--
+        SVG illustration: classic tattoo heart with "404" on the banner
+        instead of "MOM" — the most permanent error of all.
+        Drawn with pure SVG, no external assets.
+      -->
+      <svg class="illustration"
+           viewBox="0 0 220 260"
+           width="180" height="212"
+           aria-label="Comic tattoo illustration: a classic heart tattoo with 404 on the banner instead of MOM"
+           role="img">
+
+        <!-- Stars top-left -->
+        <polygon points="30,28 32.5,20 35,28 43,28 37,33 39.5,41 32.5,36 25.5,41 28,33 22,28"
+                 fill="#e05252" stroke="#1a1a1a" stroke-width="1.2" stroke-linejoin="round"/>
+
+        <!-- Stars top-right -->
+        <polygon points="190,28 192.5,20 195,28 203,28 197,33 199.5,41 192.5,36 185.5,41 188,33 182,28"
+                 fill="#e05252" stroke="#1a1a1a" stroke-width="1.2" stroke-linejoin="round"/>
+
+        <!-- Decorative dots -->
+        <circle cx="52" cy="62" r="3.5" fill="#1a1a1a"/>
+        <circle cx="168" cy="62" r="3.5" fill="#1a1a1a"/>
+        <circle cx="42" cy="148" r="3.5" fill="#1a1a1a"/>
+        <circle cx="178" cy="148" r="3.5" fill="#1a1a1a"/>
+
+        <!-- Decorative linework flourishes (classic flash style) -->
+        <line x1="52" y1="76" x2="44" y2="68" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="46" y1="74" x2="38" y2="76" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="168" y1="76" x2="176" y2="68" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="174" y1="74" x2="182" y2="76" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+
+        <!-- Heart body -->
+        <path d="M 110,96
+                 C 110,78 125,64 142,64
+                 C 161,64 176,79 176,98
+                 C 176,136 142,162 110,188
+                 C 78,162 44,136 44,98
+                 C 44,79 59,64 78,64
+                 C 95,64 110,78 110,96 Z"
+              fill="#e05252" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+
+        <!-- Heart shine (top-left highlight) -->
+        <path d="M 88,78 Q 95,70 106,74"
+              stroke="#ffffff" stroke-width="2.5" fill="none"
+              stroke-linecap="round" opacity="0.6"/>
+
+        <!-- Banner ribbon across heart -->
+        <path d="M 36,114 Q 110,102 184,114 L 180,134 Q 110,146 40,134 Z"
+              fill="#f5f0e8" stroke="#1a1a1a" stroke-width="2.2"/>
+
+        <!-- Banner left fold -->
+        <path d="M 36,114 L 20,124 L 40,134 Z"
+              fill="#ddd8c4" stroke="#1a1a1a" stroke-width="1.5"/>
+
+        <!-- Banner right fold -->
+        <path d="M 184,114 L 200,124 L 180,134 Z"
+              fill="#ddd8c4" stroke="#1a1a1a" stroke-width="1.5"/>
+
+        <!-- "404" text on banner -->
+        <text x="110" y="130"
+              text-anchor="middle"
+              font-family="Georgia, 'Times New Roman', serif"
+              font-size="21"
+              font-weight="bold"
+              fill="#1a1a1a"
+              letter-spacing="2">404</text>
+
+        <!-- Sweat drop (comedy — the artist panicking) -->
+        <path d="M 176,84 Q 181,78 186,84 Q 184,92 180,92 Q 175,92 173,84 Z"
+              fill="#a8d8ea" stroke="#1a1a1a" stroke-width="1.2"/>
+
+        <!-- Speech bubble from heart -->
+        <ellipse cx="62" cy="176" rx="30" ry="16" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.5"/>
+        <polygon points="74,183 80,196 68,186" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+        <text x="62" y="180"
+              text-anchor="middle"
+              font-family="Georgia, 'Times New Roman', serif"
+              font-size="9"
+              fill="#1a1a1a">Regrets?</text>
+
+        <!-- "NOT FOUND" label below -->
+        <text x="110" y="222"
+              text-anchor="middle"
+              font-family="Georgia, 'Times New Roman', serif"
+              font-size="9"
+              fill="#aaaaaa"
+              letter-spacing="4">NOT FOUND</text>
+
+      </svg>
+
+      <h2 class="error-heading">Oops. Wrong needle.</h2>
+      <p class="error-subtext">
+        This page doesn't exist —<br>but hey, at least it's not permanent.
+      </p>
+
       <a href="index.html" class="home-link">Back to the quiz</a>
-      <p class="countdown" id="countdown">Redirecting in <span id="timer">5</span> seconds...</p>
+      <p class="countdown">Redirecting in <span id="timer">5</span> seconds...</p>
+
     </div>
   </main>
 
   <footer>
     <p>&copy; 2026 Raigon Lab</p>
+    <a href="https://www.instagram.com/raigon.ink/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Raigon on Instagram">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      @raigon.ink
+    </a>
   </footer>
 
   <script>
