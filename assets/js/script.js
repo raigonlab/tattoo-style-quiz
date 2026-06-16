@@ -72,3 +72,17 @@ const questions = [
   
   // Tracks how many points each style has accumulated based on the user's answers
   const scores = { fineline: 0, blackwork: 0, abstract: 0, geometric: 0 };
+
+  // Reference to the HTML element where questions are displayed
+const quizContainer = document.getElementById("quiz-container");
+
+// Displays the current question and its progress counter on the page
+function renderQuestion() {
+  const currentQuestion = questions[currentQuestionIndex];
+
+  quizContainer.innerHTML = `
+    <p class="question-counter">Question ${currentQuestionIndex + 1} of ${questions.length}</p>
+    <h2>${currentQuestion.question}</h2>
+    <div class="options"></div>
+  `;
+}
