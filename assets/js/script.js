@@ -1,162 +1,105 @@
-// Array with all quiz questions, their answer options, and which style each option scores toward
-const questions = [
-    {
-      question: "Which visual pattern attracts you the most?",
-      options: [
-        { text: "Thin, continuous lines", style: "fineline" },
-        { text: "Solid, high-contrast shapes", style: "blackwork" },
-        { text: "Fluid, organic curves", style: "abstract" },
-        { text: "Precise patterns and symmetry", style: "geometric" }
-      ]
-    },
-    {
-      question: "Where do you imagine your tattoo?",
-      options: [
-        { text: "Forearm or wrist, something discreet", style: "fineline" },
-        { text: "Arm or back, a bold piece", style: "blackwork" },
-        { text: "Following the body's curve", style: "abstract" },
-        { text: "Chest or shoulder, clear symmetry", style: "geometric" }
-      ]
-    },
-    {
-      question: "What does this tattoo represent to you?",
-      options: [
-        { text: "A subtle memory or feeling", style: "fineline" },
-        { text: "Strength and presence", style: "blackwork" },
-        { text: "Movement and transformation", style: "abstract" },
-        { text: "Order, structure, purpose", style: "geometric" }
-      ]
-    },
-    {
-      question: "Which of these best describes you?",
-      options: [
-        { text: "Observant, I like details", style: "fineline" },
-        { text: "Direct, I like impact", style: "blackwork" },
-        { text: "Intuitive, I follow the flow", style: "abstract" },
-        { text: "Rational, I like logic", style: "geometric" }
-      ]
-    },
-    {
-      question: "How long would you tolerate a session?",
-      options: [
-        { text: "Not long, I prefer something quick", style: "fineline" },
-        { text: "As long as it takes for impact", style: "blackwork" },
-        { text: "Several sessions, it's a process", style: "abstract" },
-        { text: "One well-planned session", style: "geometric" }
-      ]
-    }
-  ];
-  
-  // Object holding the name and description shown for each possible result style
-  const styleResults = {
-    fineline: {
-      name: "Fineline",
-      description: "You connect with subtlety and precision. Thin, continuous lines where every stroke carries symbolic weight without shouting."
-    },
-    blackwork: {
-      name: "Blackwork",
-      description: "You seek presence and contrast. Solid pieces with strong visual impact that last."
-    },
-    abstract: {
-      name: "Abstract / Flow-line",
-      description: "You think in curves and movement. Your tattoo follows the body like a natural flow, without rigidity."
-    },
-    geometric: {
-      name: "Geometric",
-      description: "You value structure and purpose. Symmetry and patterns that communicate order and intention."
-    }
-  };
-  
-  // Tracks which question the user is currently on
-  let currentQuestionIndex = 0;
-  
-  // Tracks how many points each style has accumulated based on the user's answers
-  const scores = { fineline: 0, blackwork: 0, abstract: 0, geometric: 0 };
+// Quiz state variables
+let questions = [];
+let styleResults = {};
+let currentQuestionIndex = 0;
+const scores = { fineline: 0, blackwork: 0, abstract: 0, geometric: 0 };
 
-  // Reference to the HTML element where questions are displayed
 const quizContainer = document.getElementById("quiz-container");
+const resultContainer = document.getElementById("result-container");
 
-// Displays the current question and its progress counter on the page
+// Loads quiz data from the JSON file and starts the quiz
+fetch("assets/data/questions.json")
+  .then(function (response) {
+    if (!response.ok) {
+      throw new Error("Could not load quiz data");
+    }
+    return response.json();
+  })
+  .then(function (data) {
+    questions = data.questions;
+    styleResults = data.styleResults;
+    renderQuestion();
+  })
+  .catch(function () {
+    quizContainer.innerHTML =
+      "<p class='error-msg'>Sorry, the quiz could not be loaded. Please try again later.</p>";
+  });
+
+// Renders the current question and its answer options
 function renderQuestion() {
-  const currentQuestion = questions[currentQuestionIndex];
+  var currentQuestion = questions[currentQuestionIndex];
 
-  quizContainer.innerHTML = `
-    <p class="question-counter">Question ${currentQuestionIndex + 1} of ${questions.length}</p>
-    <h2>${currentQuestion.question}</h2>
-    <div class="options"></div>
-  `;
+  quizContainer.innerHTML =
+    "<p class='question-counter' aria-live='polite'>Question " +
+    (currentQuestionIndex + 1) +
+    " of " +
+    questions.length +
+    "</p>" +
+    "<h2>" +
+    currentQuestion.question +
+    "</h2>" +
+    "<div class='options' role='list'></div>";
+
+  var optionsContainer = quizContainer.querySelector(".options");
+
+  // Creates a button for each answer option and attaches a click handler
+  currentQuestion.options.forEach(function (option) {
+    var button = document.createElement("button");
+    button.textContent = option.text;
+    button.className = "option-btn";
+    button.setAttribute("role", "listitem");
+    button.addEventListener("click", function () {
+      handleAnswer(option.style);
+    });
+    optionsContainer.appendChild(button);
+  });
 }
 
-// Displays the current question, its progress counter, and its answer options
-function renderQuestion() {
-    const currentQuestion = questions[currentQuestionIndex];
-  
-    quizContainer.innerHTML = `
-      <p class="question-counter">Question ${currentQuestionIndex + 1} of ${questions.length}</p>
-      <h2>${currentQuestion.question}</h2>
-      <div class="options"></div>
-    `;
-  
-    const optionsContainer = quizContainer.querySelector(".options");
-  
-    // Creates a button for each answer option and attaches a click handler
-    currentQuestion.options.forEach((option, index) => {
-      const button = document.createElement("button");
-      button.textContent = option.text;
-      button.classList.add("option-btn");
-      button.addEventListener("click", () => handleAnswer(option.style));
-      optionsContainer.appendChild(button);
-    });
-  }
-  
-  // Runs when the user clicks an answer: adds a point to the chosen style,
-  // then either shows the next question or the final result
-  function handleAnswer(style) {
-    scores[style]++;
-    currentQuestionIndex++;
-  
-    if (currentQuestionIndex < questions.length) {
-      renderQuestion();
-    } else {
-      showResult();
-    }
-  }
+// Runs when the user picks an answer: increments the matching style score,
+// then moves to the next question or shows the result
+function handleAnswer(style) {
+  scores[style]++;
+  currentQuestionIndex++;
 
-  // Determines the winning style and displays the final result screen
-function showResult() {
-    const resultContainer = document.getElementById("result-container");
-  
-    // Finds the style with the highest score
-    const winningStyle = Object.keys(scores).reduce((a, b) =>
-      scores[a] >= scores[b] ? a : b
-    );
-    const result = styleResults[winningStyle];
-  
-    // Hides the quiz and shows the result section
-    quizContainer.classList.add("hidden");
-    resultContainer.classList.remove("hidden");
-  
-    resultContainer.innerHTML = `
-      <p class="result-label">Your style is</p>
-      <h2>${result.name}</h2>
-      <p>${result.description}</p>
-      <button id="restart-btn">Take the quiz again</button>
-    `;
-  
-    document.getElementById("restart-btn").addEventListener("click", restartQuiz);
-  }
-  
-  // Resets all quiz state and shows the first question again
-  function restartQuiz() {
-    currentQuestionIndex = 0;
-    Object.keys(scores).forEach((key) => (scores[key] = 0));
-  
-    document.getElementById("result-container").classList.add("hidden");
-    quizContainer.classList.remove("hidden");
-  
+  if (currentQuestionIndex < questions.length) {
     renderQuestion();
+  } else {
+    showResult();
   }
-  
-  // Starts the quiz by rendering the first question when the page loads
-  renderQuestion();
+}
 
+// Finds the highest-scoring style and displays the result screen
+function showResult() {
+  var winningStyle = Object.keys(scores).reduce(function (a, b) {
+    return scores[a] >= scores[b] ? a : b;
+  });
+  var result = styleResults[winningStyle];
+
+  quizContainer.classList.add("hidden");
+  resultContainer.classList.remove("hidden");
+
+  resultContainer.innerHTML =
+    "<p class='result-label'>Your style is</p>" +
+    "<h2>" +
+    result.name +
+    "</h2>" +
+    "<p class='result-description'>" +
+    result.description +
+    "</p>" +
+    "<button id='restart-btn'>Take the quiz again</button>";
+
+  document.getElementById("restart-btn").addEventListener("click", restartQuiz);
+}
+
+// Resets all state variables and shows the first question again
+function restartQuiz() {
+  currentQuestionIndex = 0;
+  Object.keys(scores).forEach(function (key) {
+    scores[key] = 0;
+  });
+
+  resultContainer.classList.add("hidden");
+  quizContainer.classList.remove("hidden");
+
+  renderQuestion();
+}

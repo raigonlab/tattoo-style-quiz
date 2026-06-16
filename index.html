@@ -4,31 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tattoo Style Quiz</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>What's your tattoo style?</h1>
-        <p>Answer a few questions to find out which tattoo style fits you best.</p>
-      </header>
-    
-      <main>
-        <section id="quiz-container">
-          <!-- Quiz questions will be rendered here by JavaScript -->
-        </section>
-    
-        <section id="result-container" class="hidden">
-          <!-- Quiz result will be rendered here by JavaScript -->
-        </section>
-      </main>
-    
-      <footer>
-        <p>&copy; 2026 Raigon Lab</p>
-      </footer>
-    
-      <script src="script.js"></script>
-    
-    
- 
+
+  <header>
+    <h1>What's your tattoo style?</h1>
+    <p>Answer a few questions to find out which tattoo style fits you best.</p>
+  </header>
+
+  <main>
+    <section id="quiz-container" aria-label="Quiz questions">
+      <!-- Questions are rendered here by JavaScript -->
+    </section>
+
+    <section id="result-container" class="hidden" aria-label="Quiz result" aria-live="polite">
+      <!-- Result is rendered here by JavaScript -->
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Raigon Lab</p>
+  </footer>
+
+  <script src="assets/js/script.js"></script>
+
 </body>
 </html>

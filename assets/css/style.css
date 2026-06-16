@@ -1,0 +1,160 @@
+/* Base reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #0d0d0d;
+  color: #f1f1f1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+/* Header */
+header {
+  text-align: center;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  font-size: 1rem;
+  color: #b3b3b3;
+}
+
+/* Main containers */
+main {
+  width: 100%;
+  max-width: 600px;
+}
+
+#quiz-container,
+#result-container {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+/* Question progress indicator */
+.question-counter {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+#quiz-container h2,
+#result-container h2 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+/* Answer option buttons */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option-btn {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  width: 100%;
+}
+
+.option-btn:hover,
+.option-btn:focus {
+  background-color: #3a3a3a;
+  border-color: #f1f1f1;
+  outline: 2px solid #f1f1f1;
+  outline-offset: 2px;
+}
+
+/* Result screen */
+.result-label {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.result-description {
+  color: #b3b3b3;
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+/* Restart button */
+#restart-btn {
+  margin-top: 2rem;
+  background-color: #f1f1f1;
+  color: #0d0d0d;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#restart-btn:hover,
+#restart-btn:focus {
+  background-color: #cccccc;
+  outline: 2px solid #f1f1f1;
+  outline-offset: 2px;
+}
+
+/* Error message */
+.error-msg {
+  color: #e57373;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Utility */
+.hidden {
+  display: none;
+}
+
+/* Footer */
+footer {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Responsive — small screens */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  #quiz-container,
+  #result-container {
+    padding: 1.5rem;
+  }
+
+  .option-btn {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+}
