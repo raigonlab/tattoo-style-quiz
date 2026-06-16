@@ -1,3 +1,4 @@
+// Array with all quiz questions, their answer options, and which style each option scores toward
 const questions = [
     {
       question: "Which visual pattern attracts you the most?",
@@ -46,6 +47,7 @@ const questions = [
     }
   ];
   
+  // Object holding the name and description shown for each possible result style
   const styleResults = {
     fineline: {
       name: "Fineline",
@@ -65,5 +67,8 @@ const questions = [
     }
   };
   
+  // Tracks which question the user is currently on
   let currentQuestionIndex = 0;
+  
+  // Tracks how many points each style has accumulated based on the user's answers
   const scores = { fineline: 0, blackwork: 0, abstract: 0, geometric: 0 };
