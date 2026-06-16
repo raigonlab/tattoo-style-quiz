@@ -121,3 +121,42 @@ function renderQuestion() {
       showResult();
     }
   }
+
+  // Determines the winning style and displays the final result screen
+function showResult() {
+    const resultContainer = document.getElementById("result-container");
+  
+    // Finds the style with the highest score
+    const winningStyle = Object.keys(scores).reduce((a, b) =>
+      scores[a] >= scores[b] ? a : b
+    );
+    const result = styleResults[winningStyle];
+  
+    // Hides the quiz and shows the result section
+    quizContainer.classList.add("hidden");
+    resultContainer.classList.remove("hidden");
+  
+    resultContainer.innerHTML = `
+      <p class="result-label">Your style is</p>
+      <h2>${result.name}</h2>
+      <p>${result.description}</p>
+      <button id="restart-btn">Take the quiz again</button>
+    `;
+  
+    document.getElementById("restart-btn").addEventListener("click", restartQuiz);
+  }
+  
+  // Resets all quiz state and shows the first question again
+  function restartQuiz() {
+    currentQuestionIndex = 0;
+    Object.keys(scores).forEach((key) => (scores[key] = 0));
+  
+    document.getElementById("result-container").classList.add("hidden");
+    quizContainer.classList.remove("hidden");
+  
+    renderQuestion();
+  }
+  
+  // Starts the quiz by rendering the first question when the page loads
+  renderQuestion();
+
