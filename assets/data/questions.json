@@ -6,7 +6,8 @@
         { "text": "Thin, continuous lines", "style": "fineline" },
         { "text": "Solid, high-contrast shapes", "style": "blackwork" },
         { "text": "Fluid, organic curves", "style": "abstract" },
-        { "text": "Precise patterns and symmetry", "style": "geometric" }
+        { "text": "Precise patterns and symmetry", "style": "geometric" },
+        { "text": "Lifelike detail and depth", "style": "realism" }
       ]
     },
     {
@@ -15,7 +16,8 @@
         { "text": "Forearm or wrist, something discreet", "style": "fineline" },
         { "text": "Arm or back, a bold piece", "style": "blackwork" },
         { "text": "Following the body's curve", "style": "abstract" },
-        { "text": "Chest or shoulder, clear symmetry", "style": "geometric" }
+        { "text": "Chest or shoulder, clear symmetry", "style": "geometric" },
+        { "text": "A visible spot where detail shines", "style": "realism" }
       ]
     },
     {
@@ -24,7 +26,8 @@
         { "text": "A subtle memory or feeling", "style": "fineline" },
         { "text": "Strength and presence", "style": "blackwork" },
         { "text": "Movement and transformation", "style": "abstract" },
-        { "text": "Order, structure, purpose", "style": "geometric" }
+        { "text": "Order, structure, purpose", "style": "geometric" },
+        { "text": "A person, place or moment frozen in time", "style": "realism" }
       ]
     },
     {
@@ -33,7 +36,8 @@
         { "text": "Observant, I like details", "style": "fineline" },
         { "text": "Direct, I like impact", "style": "blackwork" },
         { "text": "Intuitive, I follow the flow", "style": "abstract" },
-        { "text": "Rational, I like logic", "style": "geometric" }
+        { "text": "Rational, I like logic", "style": "geometric" },
+        { "text": "Emotional, I like meaning", "style": "realism" }
       ]
     },
     {
@@ -42,26 +46,36 @@
         { "text": "Not long, I prefer something quick", "style": "fineline" },
         { "text": "As long as it takes for impact", "style": "blackwork" },
         { "text": "Several sessions, it's a process", "style": "abstract" },
-        { "text": "One well-planned session", "style": "geometric" }
+        { "text": "One well-planned session", "style": "geometric" },
+        { "text": "As many sessions as it takes to get it perfect", "style": "realism" }
       ]
     }
   ],
   "styleResults": {
     "fineline": {
       "name": "Fineline",
-      "description": "You connect with subtlety and precision. Thin, continuous lines where every stroke carries symbolic weight without shouting."
+      "description": "You connect with subtlety and precision. Thin, continuous lines where every stroke carries symbolic weight without shouting.",
+      "image": "fineline.jpg"
     },
     "blackwork": {
       "name": "Blackwork",
-      "description": "You seek presence and contrast. Solid pieces with strong visual impact that last."
+      "description": "You seek presence and contrast. Solid pieces with strong visual impact that last.",
+      "image": "blackwork.png"
     },
     "abstract": {
       "name": "Abstract / Flow-line",
-      "description": "You think in curves and movement. Your tattoo follows the body like a natural flow, without rigidity."
+      "description": "You think in curves and movement. Your tattoo follows the body like a natural flow, without rigidity.",
+      "image": "flow-abstract.png"
     },
     "geometric": {
       "name": "Geometric",
-      "description": "You value structure and purpose. Symmetry and patterns that communicate order and intention."
+      "description": "You value structure and purpose. Symmetry and patterns that communicate order and intention.",
+      "image": "geometric.jpg"
+    },
+    "realism": {
+      "name": "Realism / Micro-realism",
+      "description": "You want to capture the world as it is — with depth, texture and emotion. Every detail tells the story.",
+      "image": "realism.png"
     }
   }
 }
