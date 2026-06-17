@@ -4,13 +4,14 @@
 let questions = [];
 let styleResults = {};
 let currentQuestionIndex = 0;
-let answers = []; // stores the style selected for each question index
-let typeWriterInterval = null; // reference to the active typewriter timer
+let answers = [];
+let selectedGender = null;
+let typeWriterInterval = null;
 
 const quizContainer = document.getElementById("quiz-container");
 const resultContainer = document.getElementById("result-container");
 
-// Loads quiz data from the JSON file and starts the quiz
+// Loads quiz data from the JSON file and shows the gender selection screen
 fetch("assets/data/questions.json")
   .then(function (response) {
     if (!response.ok) {
@@ -21,12 +22,45 @@ fetch("assets/data/questions.json")
   .then(function (data) {
     questions = data.questions;
     styleResults = data.styleResults;
-    renderQuestion();
+    renderGenderSelection();
   })
   .catch(function () {
     quizContainer.innerHTML =
       "<p class='error-msg'>Sorry, the quiz could not be loaded. Please try again later.</p>";
   });
+
+// Renders the gender selection screen
+function renderGenderSelection() {
+  quizContainer.innerHTML =
+    "<p class='gender-label'>Before we start</p>" +
+    "<h2>How do you identify?</h2>" +
+    "<p class='gender-sub'>This helps us show you relevant tattoo examples — your quiz result is the same regardless.</p>" +
+    "<div class='gender-options'></div>";
+
+  var genderContainer = quizContainer.querySelector(".gender-options");
+
+  var genders = [
+    { label: "Feminine", value: "female" },
+    { label: "Masculine", value: "male" },
+    { label: "Non-binary / Other", value: "other" }
+  ];
+
+  genders.forEach(function (gender) {
+    var btn = document.createElement("button");
+    btn.textContent = gender.label;
+    btn.className = "gender-btn";
+    btn.addEventListener("click", function () {
+      selectGender(gender.value);
+    });
+    genderContainer.appendChild(btn);
+  });
+}
+
+// Stores the selected gender and starts the quiz
+function selectGender(gender) {
+  selectedGender = gender;
+  renderQuestion();
+}
 
 // Renders the current question, progress bar, answer options, and navigation arrows
 function renderQuestion() {
@@ -49,7 +83,6 @@ function renderQuestion() {
     "<div class='options' role='list'></div>" +
     "<div class='quiz-nav'></div>";
 
-  // Render answer option buttons
   var optionsContainer = quizContainer.querySelector(".options");
 
   currentQuestion.options.forEach(function (option) {
@@ -58,7 +91,6 @@ function renderQuestion() {
     button.className = "option-btn";
     button.setAttribute("role", "listitem");
 
-    // Restore selected state if user came back to this question
     if (previousAnswer === option.style) {
       button.classList.add("selected");
     }
@@ -69,20 +101,16 @@ function renderQuestion() {
     optionsContainer.appendChild(button);
   });
 
-  // Render navigation arrows
   var navContainer = quizContainer.querySelector(".quiz-nav");
 
-  // Back arrow — hidden on the first question
-  if (currentQuestionIndex > 0) {
-    var backBtn = document.createElement("button");
-    backBtn.className = "nav-btn";
-    backBtn.setAttribute("aria-label", "Previous question");
-    backBtn.innerHTML = "&#8592;";
-    backBtn.addEventListener("click", goBack);
-    navContainer.appendChild(backBtn);
-  }
+  // Back arrow — on question 1 goes back to gender selection
+  var backBtn = document.createElement("button");
+  backBtn.className = "nav-btn";
+  backBtn.setAttribute("aria-label", "Go back");
+  backBtn.innerHTML = "&#8592;";
+  backBtn.addEventListener("click", goBack);
+  navContainer.appendChild(backBtn);
 
-  // Forward arrow — only shown if this question was already answered
   if (previousAnswer !== undefined) {
     var forwardBtn = document.createElement("button");
     forwardBtn.className = "nav-btn";
@@ -93,7 +121,7 @@ function renderQuestion() {
   }
 }
 
-// Highlights the clicked button, disables all options, then advances after a short delay
+// Highlights the selected button, disables all options, then advances
 function selectAnswer(selectedButton, style) {
   var allButtons = quizContainer.querySelectorAll(".option-btn");
 
@@ -103,20 +131,25 @@ function selectAnswer(selectedButton, style) {
 
   selectedButton.classList.add("selected");
 
-  // Store the answer for this question, then advance
   setTimeout(function () {
     answers[currentQuestionIndex] = style;
     advance();
   }, 350);
 }
 
-// Moves to the previous question
+// Goes back one question, or back to gender selection on question 1
 function goBack() {
-  currentQuestionIndex--;
-  renderQuestion();
+  if (currentQuestionIndex === 0) {
+    selectedGender = null;
+    answers = [];
+    renderGenderSelection();
+  } else {
+    currentQuestionIndex--;
+    renderQuestion();
+  }
 }
 
-// Moves to the next question using the already-stored answer
+// Moves forward using the already-stored answer
 function goForward() {
   advance();
 }
@@ -132,9 +165,9 @@ function advance() {
   }
 }
 
-// Calculates scores from the stored answers array and displays the result
+// Calculates scores from answers and displays the result with image
 function showResult() {
-  var scores = { fineline: 0, blackwork: 0, abstract: 0, geometric: 0 };
+  var scores = { fineline: 0, blackwork: 0, abstract: 0, geometric: 0, realism: 0 };
 
   answers.forEach(function (style) {
     scores[style]++;
@@ -145,11 +178,13 @@ function showResult() {
   });
   var result = styleResults[winningStyle];
 
+  var imagePath = "assets/images/" + selectedGender + "/" + result.image;
+
   quizContainer.classList.add("hidden");
   resultContainer.classList.remove("hidden");
 
-  // Description starts empty — filled by the typewriter effect
   resultContainer.innerHTML =
+    "<img src='" + imagePath + "' alt='Example of " + result.name + " tattoo' class='result-img' onerror=\"this.style.display='none'\">" +
     "<p class='result-label'>Your style is</p>" +
     "<h2 class='result-title'>" + result.name + "</h2>" +
     "<p class='result-description' id='result-desc' aria-live='polite'></p>" +
@@ -160,13 +195,12 @@ function showResult() {
 
   document.getElementById("restart-btn").addEventListener("click", restartQuiz);
 
-  // Type out the description, then reveal the action buttons
   typeWriter(result.description, document.getElementById("result-desc"), function () {
     document.getElementById("result-actions").classList.remove("hidden");
   });
 }
 
-// Types text into an element character by character, calls callback when done
+// Types text character by character, then calls callback when done
 function typeWriter(text, element, callback) {
   var index = 0;
 
@@ -184,9 +218,8 @@ function typeWriter(text, element, callback) {
   }, 25);
 }
 
-// Resets all state and returns to the first question
+// Resets all state and returns to the gender selection screen
 function restartQuiz() {
-  // Cancel any typewriter still running
   if (typeWriterInterval) {
     clearInterval(typeWriterInterval);
     typeWriterInterval = null;
@@ -194,9 +227,10 @@ function restartQuiz() {
 
   currentQuestionIndex = 0;
   answers = [];
+  selectedGender = null;
 
   resultContainer.classList.add("hidden");
   quizContainer.classList.remove("hidden");
 
-  renderQuestion();
+  renderGenderSelection();
 }
