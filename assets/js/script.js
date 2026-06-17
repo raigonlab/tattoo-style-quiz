@@ -5,6 +5,7 @@ let questions = [];
 let styleResults = {};
 let currentQuestionIndex = 0;
 let answers = []; // stores the style selected for each question index
+let typeWriterInterval = null; // reference to the active typewriter timer
 
 const quizContainer = document.getElementById("quiz-container");
 const resultContainer = document.getElementById("result-container");
@@ -147,18 +148,50 @@ function showResult() {
   quizContainer.classList.add("hidden");
   resultContainer.classList.remove("hidden");
 
+  // Description starts empty — filled by the typewriter effect
   resultContainer.innerHTML =
     "<p class='result-label'>Your style is</p>" +
-    "<h2>" + result.name + "</h2>" +
-    "<p class='result-description'>" + result.description + "</p>" +
+    "<h2 class='result-title'>" + result.name + "</h2>" +
+    "<p class='result-description' id='result-desc' aria-live='polite'></p>" +
+    "<div id='result-actions' class='result-actions hidden'>" +
     "<button id='restart-btn'>Take the quiz again</button>" +
-    "<a href='https://raigonlab.github.io/raigon-mmxi' target='_blank' rel='noopener noreferrer' class='gallery-link'>See our gallery &rarr;</a>";
+    "<a href='https://raigonlab.github.io/raigon-mmxi' target='_blank' rel='noopener noreferrer' class='gallery-link'>See our gallery &rarr;</a>" +
+    "</div>";
 
   document.getElementById("restart-btn").addEventListener("click", restartQuiz);
+
+  // Type out the description, then reveal the action buttons
+  typeWriter(result.description, document.getElementById("result-desc"), function () {
+    document.getElementById("result-actions").classList.remove("hidden");
+  });
+}
+
+// Types text into an element character by character, calls callback when done
+function typeWriter(text, element, callback) {
+  var index = 0;
+
+  typeWriterInterval = setInterval(function () {
+    element.textContent += text[index];
+    index++;
+
+    if (index >= text.length) {
+      clearInterval(typeWriterInterval);
+      typeWriterInterval = null;
+      if (callback) {
+        callback();
+      }
+    }
+  }, 25);
 }
 
 // Resets all state and returns to the first question
 function restartQuiz() {
+  // Cancel any typewriter still running
+  if (typeWriterInterval) {
+    clearInterval(typeWriterInterval);
+    typeWriterInterval = null;
+  }
+
   currentQuestionIndex = 0;
   answers = [];
 
