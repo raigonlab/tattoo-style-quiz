@@ -56,10 +56,36 @@ function renderGenderSelection() {
   });
 }
 
-// Stores the selected gender and starts the quiz
+// Stores the selected gender and shows the style gallery
 function selectGender(gender) {
   selectedGender = gender;
-  renderQuestion();
+  renderStyleGallery();
+}
+
+// Shows all 5 tattoo styles with images so the user knows what they are choosing between
+function renderStyleGallery() {
+  var styles = Object.keys(styleResults);
+
+  var cardsHTML = styles.map(function (key) {
+    var style = styleResults[key];
+    var imagePath = "assets/images/" + selectedGender + "/" + style.image;
+
+    return "<div class='style-card'>" +
+      "<img src='" + imagePath + "' alt='" + style.name + " tattoo example' class='style-card-img' onerror=\"this.style.display='none'\">" +
+      "<p class='style-card-name'>" + style.name + "</p>" +
+      "</div>";
+  }).join("");
+
+  quizContainer.innerHTML =
+    "<p class='gender-label'>These are the styles</p>" +
+    "<h2>Which catches your eye?</h2>" +
+    "<p class='gender-sub'>Take the quiz to find out which one truly fits you.</p>" +
+    "<div class='style-gallery'>" + cardsHTML + "</div>" +
+    "<button id='start-quiz-btn' class='start-btn'>Start Quiz &rarr;</button>";
+
+  document.getElementById("start-quiz-btn").addEventListener("click", function () {
+    renderQuestion();
+  });
 }
 
 // Renders the current question, progress bar, answer options, and navigation arrows
